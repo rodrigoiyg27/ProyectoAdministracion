@@ -1,15 +1,15 @@
 --1. País con el mayor número de casos de COVID-19 por cada 100,000 habitantes al 31/07/2020
 SELECT country, rate_14_day
 FROM covid_data 
-WHERE year_week = '2020-07' and rate_14_day is not null
+WHERE year_week = '2020-30' and rate_14_day is not null
 ORDER BY rate_14_day DESC 
 LIMIT 1;
 
 --2. Los 10 países con el menor número de casos de COVID-19 por cada 100,000 habitantes al 31/07/2020
 SELECT country, rate_14_day 
 FROM covid_data 
-WHERE year_week = '2020-07' and rate_14_day is not null
-ORDER BY rate_14_day ASC 
+WHERE year_week = '2020-30' and rate_14_day is not null
+ORDER BY rate_14_day  
 LIMIT 10;
 
 --3. Los 10 países con el mayor número de casos entre los 20 países más ricos (según el PIB per cápita)
@@ -17,7 +17,7 @@ SELECT * FROM (
    SELECT c.country, c.rate_14_day, p."GDP ($ per capita)"
 	FROM covid_data c
 	JOIN paises p ON LOWER(TRIM(c.country)) = LOWER(TRIM(p."Country"))
-	WHERE c.year_week = '2020-07' and rate_14_day is not null
+	WHERE c.year_week = '2020-30' and rate_14_day is not null
 	ORDER BY p."GDP ($ per capita)" DESC
 	LIMIT 20
 ) sub
@@ -30,7 +30,7 @@ SELECT p."Region",
        SUM(CAST(REPLACE(p."Pop. Density (per sq. mi.)", ',', '.') AS NUMERIC)) AS densidad_poblacional
 FROM covid_data c
 JOIN paises p ON LOWER(TRIM(c.country)) = LOWER(TRIM(p."Country"))
-WHERE c.year_week = '2020-07' AND c.rate_14_day IS NOT NULL
+WHERE c.year_week = '2020-30' AND c.rate_14_day IS NOT NULL
 GROUP BY p."Region"
 ORDER BY casos_por_millon DESC;
 
@@ -45,7 +45,7 @@ HAVING COUNT(*) > 1;
 EXPLAIN ANALYZE
 SELECT country, rate_14_day 
 FROM covid_data 
-WHERE year_week = '2020-07' 
+WHERE year_week = '2020-30' 
 ORDER BY rate_14_day DESC 
 LIMIT 1;
 
